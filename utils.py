@@ -106,9 +106,7 @@ class ValImageDataset(data.Dataset):
         gt_paths = [line.split(' ')[1] for line in lines]
         self.image_paths = [os.path.join(data_dir, line.replace('\n','')) for line in image_paths]
         self.gt_paths = [os.path.join(data_dir, line.replace('\n','')) for line in gt_paths]
-        for p in self.gt_paths:
-            if p.replace('gt','image') not in self.image_paths:
-                raise Exception(p,'not agree with image paths')
+
 
     def __getitem__(self, index):
         image_path = self.image_paths[index]
