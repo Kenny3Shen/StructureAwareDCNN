@@ -2,7 +2,6 @@ import torch
 import torch.utils.data as data
 import os
 import cv2
-import torch.nn.functional as F
 import numpy as np
 import argparse
 
@@ -101,12 +100,12 @@ class ValImageDataset(data.Dataset):
         self.args = args
         self.image_paths = []
         self.gt_paths = []
-        with open(data_dir+'/image_pair.txt','r') as f:
+        with open(args['pair_path'], 'r') as f:
             lines = f.readlines()
         image_paths = [line.split(' ')[0] for line in lines]
         gt_paths = [line.split(' ')[1] for line in lines]
-        self.image_paths = [os.path.join(data_dir,'image_gray',line.replace('\n','')) for line in image_paths]
-        self.gt_paths = [os.path.join(data_dir,'gt_gray',line.replace('\n','')) for line in gt_paths]
+        self.image_paths = [os.path.join(data_dir, line.replace('\n','')) for line in image_paths]
+        self.gt_paths = [os.path.join(data_dir, line.replace('\n','')) for line in gt_paths]
         for p in self.gt_paths:
             if p.replace('gt','image') not in self.image_paths:
                 raise Exception(p,'not agree with image paths')
@@ -135,7 +134,7 @@ class ValImageDataset(data.Dataset):
         gt = gt / 127.5 - 1
         sobel_gt = torch.tanh(sobel_gt)
 
-        return image,gt,sobel_gt
+        return image,gt,sobel_gt, os.path.basename(image_path)
 
     def __len__(self):
         return len(self.image_paths)

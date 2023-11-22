@@ -1,0 +1,1 @@
+image_gray/1/AJ_Cook_0001.jpg gt_gray/1/AJ_Cook_0001.jpg
