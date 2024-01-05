@@ -53,11 +53,11 @@ def demo_gray():
             psnr = criCalc.caclBatchPSNR((pre + 1) * 127.5, (gt + 1) * 127.5)
             PSNR.append(psnr)
             if args['lfw']:
-                person_name = basename[0].split('_')[0]
+                person_name = basename[0].split('_0')[0]
                 utils.saveGeneResult((pre + 1) * 127.5, os.path.join(args['res'], f'lfw_re/{person_name}', basename[0]))
             else:
                 utils.saveGeneResult((pre + 1) * 127.5,
-                                     os.path.join(args['res'], 'classical', str(i) + '_0' + str(psnr) + '.jpg'))
+                                     os.path.join(args['res'], 'classical', str(i) + '_' + str(psnr) + '.jpg'))
         print('average psnr:%f' % (np.mean(PSNR)))
 
 
