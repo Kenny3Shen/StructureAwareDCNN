@@ -55,11 +55,13 @@ class ImageDataset(data.Dataset):
             lines = f.readlines()
         image_paths = [line.split(' ')[0] for line in lines]
         gt_paths = [line.split(' ')[1] for line in lines]
-        self.image_paths = [os.path.join(data_dir,'image_gray',line.replace('\n','')) for line in image_paths]
-        self.gt_paths = [os.path.join(data_dir,'gt_gray',line.replace('\n','')) for line in gt_paths]
-        for p in self.gt_paths:
-            if p.replace('gt','image') not in self.image_paths:
-                raise Exception(p,'not agree with image paths')
+        # self.image_paths = [os.path.join(data_dir,'image_gray',line.replace('\n','')) for line in image_paths]
+        # self.gt_paths = [os.path.join(data_dir,'gt_gray',line.replace('\n','')) for line in gt_paths]
+        self.image_paths = [os.path.join(data_dir,'gt_gray',line.replace('\n','')) for line in image_paths]
+        self.gt_paths = [os.path.join(data_dir,'gt_gray_ori',line.replace('\n','')) for line in gt_paths]
+        # for p in self.gt_paths:
+        #     if p.replace('gt','image') not in self.image_paths:
+        #         raise Exception(p,'not agree with image paths')
 
     def __getitem__(self, index):
         image_path = self.image_paths[index]
@@ -105,11 +107,13 @@ class ValImageDataset(data.Dataset):
             lines = f.readlines()
         image_paths = [line.split(' ')[0] for line in lines]
         gt_paths = [line.split(' ')[1] for line in lines]
-        self.image_paths = [os.path.join(data_dir,'image_gray',line.replace('\n','')) for line in image_paths]
-        self.gt_paths = [os.path.join(data_dir,'gt_gray',line.replace('\n','')) for line in gt_paths]
-        for p in self.gt_paths:
-            if p.replace('gt','image') not in self.image_paths:
-                raise Exception(p,'not agree with image paths')
+        # self.image_paths = [os.path.join(data_dir,'image_gray',line.replace('\n','')) for line in image_paths]
+        # self.gt_paths = [os.path.join(data_dir,'gt_gray',line.replace('\n','')) for line in gt_paths]
+        self.image_paths = [os.path.join(data_dir,'gt_gray',line.replace('\n','')) for line in image_paths]
+        self.gt_paths = [os.path.join(data_dir,'gt_gray_ori',line.replace('\n','')) for line in gt_paths]
+        # for p in self.gt_paths:
+        #     if p.replace('gt','image') not in self.image_paths:
+        #         raise Exception(p,'not agree with image paths')
 
     def __getitem__(self, index):
         image_path = self.image_paths[index]
@@ -213,7 +217,6 @@ if __name__ == '__main__':
     for i,(image,gt,sobel_image,sobel_gt) in enumerate(trainDataLoader):
         print(image.shape,gt.shape,sobel_image.shape,sobel_gt.shape)
     pass
-
 
 
 

@@ -25,7 +25,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 args = get_parser()
 
 def demo_gray():
-    testDataset = ValImageDataset('./dataset/classical',args)
+    testDataset = ValImageDataset('./dataset/val',args)
     testDataLoader = torch.utils.data.DataLoader(
         dataset=testDataset,
         batch_size=1,
@@ -34,7 +34,7 @@ def demo_gray():
         pin_memory=True,
     )
     model = RS(16).to(device)
-    state_dict = torch.load('./model/RS_best_psnr.pkl', map_location=device)
+    state_dict = torch.load('model/RS_best_psnr_ori.pkl', map_location=device)
     model.load_state_dict(state_dict['model'], strict=False)
     print('RS model load done, epoch:%d, best_loss:%f, best psnr:%f'
           % (state_dict['epoch'], state_dict['best_loss'], state_dict['best_psnr']))
@@ -61,7 +61,7 @@ def demo_color():
         pin_memory=True,
     )
     model = RS(16).to(device)
-    state_dict = torch.load('./model/RS_best_psnr.pkl', map_location=device)
+    state_dict = torch.load('model/RS_best_psnr_ori.pkl', map_location=device)
     model.load_state_dict(state_dict['model'], strict=False)
     print('RS model load done, epoch:%d, best_loss:%f, best psnr:%f'
           % (state_dict['epoch'], state_dict['best_loss'], state_dict['best_psnr']))
@@ -92,5 +92,5 @@ def demo_color():
 if __name__ == '__main__':
     criCalc = CriterionCalc()
     utils = Utils()
-    demo_color()
-    # demo_gray()
+    #demo_color()
+    demo_gray()

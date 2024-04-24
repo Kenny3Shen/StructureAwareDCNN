@@ -13,7 +13,7 @@ def get_parser():
     parser = argparse.ArgumentParser('parameters')
 
     parser.add_argument('--batchsize',type=int,default=32,help='train batch')
-    parser.add_argument('--epochs',type=int,default=200,help='epoch')
+    parser.add_argument('--epochs',type=int,default=3,help='epoch')
     parser.add_argument('--patch_size',type=int,default=32,help='patch size')
     parser.add_argument('--image_size', type=int, default=256, help='image size')
     parser.add_argument('--lr',type=float,default=1e-2,help='lr')
@@ -128,4 +128,3 @@ if __name__ == '__main__':
     logger = getLogger('./log/output.txt')
     criCalc = CriterionCalc()
     train()
-

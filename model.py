@@ -82,3 +82,36 @@ class RS(nn.Module):
         out = self.out(y)
         return map2,out
 
+# 接着RS，使用RS的输出作为GRS的输入，进行最终的图像生成
+class GRS(nn.Module):
+    def __init__(self,block_num):
+        super(GRS,self).__init__()
+        self.RS = RS(16)
+        self.GS = DCNN(16)
+        self.input = nn.Sequential(
+            nn.Conv2d(1,64,5,1,2),
+            nn.ReLU(inplace=True),
+        )
+        self.blocks = nn.ModuleList()
+        for _ in range(block_num-1):
+            self.blocks.append(Block(64,64))
+        self.out = nn.Sequential(
+            nn.Conv2d(64,1,5,1,2),
+        )
+        self.apply(_weights_init)
+
+    def initModel(self,device):
+        state_dict = torch.load('./model/RS_best_psnr_ori - 副本.pkl',map_location=device)
+        self.RS.load_state_dict(state_dict['model'],strict=False)
+        print('RS model load done, epoch:%d, best_loss:%f, best psnr:%f'
+              % (state_dict['epoch'],state_dict['best_loss'],state_dict['best_psnr']))
+
+    def forward(self,x):
+        _,out = self.RS(x)
+        out = self.GS(out)
+        y = self.input(out)
+        for block in self.blocks:
+            y = block(y)
+        out = self.out(y)
+        return out
+

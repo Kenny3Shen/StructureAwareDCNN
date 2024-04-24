@@ -131,4 +131,3 @@ if __name__ == '__main__':
     logger = getLogger('./log/output.txt')
     criCalc = CriterionCalc()
     train()
-
